@@ -48,7 +48,7 @@ namespace TripSupp.WebAPI
                     Title = "Madrid"
                 },
             };
-            _context.Destinations.AddRange(destinations);
+            _context.Destinations.AddRange();
             _context.SaveChanges();
         }
 
