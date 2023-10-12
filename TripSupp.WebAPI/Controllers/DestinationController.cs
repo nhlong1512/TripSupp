@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Dtos.RequestDtos;
 using TripSupp.WebAPI.Services.Interfaces;
 
 namespace TripSupp.WebAPI.Controllers
@@ -36,22 +37,27 @@ namespace TripSupp.WebAPI.Controllers
         }
 
         [HttpPost("CreateDestination")]
-        public async ValueTask<IActionResult> CreateDestination(Destination destination)
+        public async ValueTask<IActionResult> CreateDestination(DestinationRequest destinationRequest)
         {
-            Destination createdDestination = await _destinationService.CreateDestinationAsync(destination);
+            Destination createdDestination = await _destinationService.CreateDestinationAsync(destinationRequest);
             return Ok(createdDestination);
         }
 
         [HttpPut("UpdateDestination")]
-        public async ValueTask<IActionResult> UpdateDestination(Destination destination)
+        public async ValueTask<IActionResult> UpdateDestination(Guid destinationId, DestinationRequest destinationRequest)
         {
-            Destination updatedDestination = await _destinationService.UpdateDestinationAsync(destination);
+            Destination updatedDestination = await _destinationService.UpdateDestinationAsync(destinationId, destinationRequest);
             return Ok(updatedDestination);
         }
 
         [HttpDelete("DeleteDestination/{id}")]
         public async ValueTask<IActionResult> DeleteDestination(Guid id)
         {
+            bool isExisted = await _destinationService.CheckDestinationExistedAsync(id);
+            if (!isExisted)
+            {
+                return NotFound("Destination not found.");
+            }
             bool isDeleted = await _destinationService.DeleteDestinationAsync(id);
             return Ok(isDeleted ? "Deleted successfully." : "Delete failed.");
         }

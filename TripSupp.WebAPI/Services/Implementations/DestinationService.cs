@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Dtos.RequestDtos;
 using TripSupp.WebAPI.Repositories.Interfaces;
 using TripSupp.WebAPI.Services.Interfaces;
 
@@ -28,15 +29,21 @@ namespace TripSupp.WebAPI.Services.Implementations
             return destination;
         }
 
-        public async ValueTask<Destination> CreateDestinationAsync(Destination destination)
+        public async ValueTask<Destination> CreateDestinationAsync(DestinationRequest destinationRequest)
         {
-            Destination createdDestination = await _destinationRepository.CreateDestinationAsync(destination);
+            if (destinationRequest.Title == null || destinationRequest.Title == "")
+            {
+                throw new Exception("Title is required");
+            }
+
+            Destination createdDestination = await _destinationRepository.CreateDestinationAsync(destinationRequest);
+
             return createdDestination;
         }
 
-        public async ValueTask<Destination> UpdateDestinationAsync(Destination destination)
+        public async ValueTask<Destination> UpdateDestinationAsync(Guid destinationId, DestinationRequest destinationRequest)
         {
-            Destination updatedDestination = await _destinationRepository.UpdateDestinationAsync(destination);
+            Destination updatedDestination = await _destinationRepository.UpdateDestinationAsync(destinationId, destinationRequest);
             return updatedDestination;
         }
 
@@ -44,6 +51,12 @@ namespace TripSupp.WebAPI.Services.Implementations
         {
             bool isDeleted = await _destinationRepository.DeleteDestinationAsync(id);
             return isDeleted;
+        }
+
+        public async ValueTask<bool> CheckDestinationExistedAsync(Guid id)
+        {
+            Destination destination = await _destinationRepository.GetDestinationByIdAsync(id);
+            return destination != null;
         }
     }
 }

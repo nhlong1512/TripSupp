@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<Seed>();
 builder.Services.AddTransient<IDestinationRepository, DestinationRepository>();
 builder.Services.AddTransient<IDestinationService, DestinationService>();
@@ -31,7 +32,9 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("http://localhost:3000",
                                              "http://localhost:5173")
-                          .WithMethods("PUT", "DELETE", "GET", "POST", "PATCH"); ;
+                          .WithMethods("PUT", "DELETE", "GET", "POST", "PATCH")
+                          .AllowAnyHeader()
+                          .SetIsOriginAllowed(origin => true);
                       });
 });
 

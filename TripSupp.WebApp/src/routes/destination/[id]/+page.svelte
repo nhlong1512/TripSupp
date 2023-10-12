@@ -7,7 +7,6 @@
 	export let data
 
 	if (data) {
-		console.log(data.id)
 		onMount(async () => {
 			await loadDestinationDetail(data.id)
 		})
