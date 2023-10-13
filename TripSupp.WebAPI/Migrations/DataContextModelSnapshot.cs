@@ -22,7 +22,7 @@ namespace TripSupp.WebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TripSupp.WebAPI.Data.Models.Destination", b =>
+            modelBuilder.Entity("TripSupp.WebAPI.Models.Destination", b =>
                 {
                     b.Property<Guid>("DestinationId")
                         .ValueGeneratedOnAdd()
@@ -35,6 +35,33 @@ namespace TripSupp.WebAPI.Migrations
                     b.HasKey("DestinationId");
 
                     b.ToTable("Destinations");
+                });
+
+            modelBuilder.Entity("TripSupp.WebAPI.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

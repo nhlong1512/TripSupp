@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Models;
 using TripSupp.WebAPI.Dtos.RequestDtos;
 using TripSupp.WebAPI.Services.Interfaces;
 

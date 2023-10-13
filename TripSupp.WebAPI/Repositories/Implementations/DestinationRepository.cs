@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TripSupp.WebAPI.Data;
-using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Models;
 using TripSupp.WebAPI.Dtos.RequestDtos;
 using TripSupp.WebAPI.Repositories.Interfaces;
 
