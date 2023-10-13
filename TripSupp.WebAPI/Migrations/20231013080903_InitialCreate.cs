@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TripSupp.WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,21 @@ namespace TripSupp.WebAPI.Migrations
                 {
                     table.PrimaryKey("PK_Destinations", x => x.DestinationId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -29,6 +44,9 @@ namespace TripSupp.WebAPI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Destinations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

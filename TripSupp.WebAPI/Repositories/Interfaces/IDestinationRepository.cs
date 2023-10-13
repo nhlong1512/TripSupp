@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Models;
 using TripSupp.WebAPI.Dtos.RequestDtos;
 
 namespace TripSupp.WebAPI.Repositories.Interfaces

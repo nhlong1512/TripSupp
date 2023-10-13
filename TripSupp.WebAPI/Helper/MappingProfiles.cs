@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Models;
 using TripSupp.WebAPI.Dtos.RequestDtos;
+using TripSupp.WebAPI.Dtos.ResponseDtos;
 
 namespace TripSupp.WebAPI.Helper
 {
@@ -13,6 +14,7 @@ namespace TripSupp.WebAPI.Helper
         public MappingProfiles()
         {
             CreateMap<DestinationRequest, Destination>().ReverseMap();
+            CreateMap<User, UserResponse>();
         }
     }
 }

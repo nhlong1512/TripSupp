@@ -1,4 +1,4 @@
-using TripSupp.WebAPI.Data.Models;
+using TripSupp.WebAPI.Models;
 using TripSupp.WebAPI.Dtos.RequestDtos;
 
 namespace TripSupp.WebAPI.Services.Interfaces

@@ -12,8 +12,8 @@ using TripSupp.WebAPI.Data;
 namespace TripSupp.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231004103732_initialcreate")]
-    partial class initialcreate
+    [Migration("20231013080903_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace TripSupp.WebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TripSupp.WebAPI.Data.Models.Destination", b =>
+            modelBuilder.Entity("TripSupp.WebAPI.Models.Destination", b =>
                 {
                     b.Property<Guid>("DestinationId")
                         .ValueGeneratedOnAdd()
@@ -38,6 +38,33 @@ namespace TripSupp.WebAPI.Migrations
                     b.HasKey("DestinationId");
 
                     b.ToTable("Destinations");
+                });
+
+            modelBuilder.Entity("TripSupp.WebAPI.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
