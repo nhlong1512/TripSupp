@@ -12,7 +12,7 @@ using TripSupp.WebAPI.Data;
 namespace TripSupp.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231013080903_InitialCreate")]
+    [Migration("20231016044446_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,9 +54,13 @@ namespace TripSupp.WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()

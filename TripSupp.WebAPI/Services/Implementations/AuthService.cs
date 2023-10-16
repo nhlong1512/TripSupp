@@ -20,6 +20,10 @@ namespace TripSupp.WebAPI.Services.Implementations
         public async ValueTask<LoginResponse> LoginAsync(LoginRequest loginRequest)
         {
             LoginResponse loginResponse = await _authRepository.LoginAsync(loginRequest);
+            if (loginResponse == null)
+            {
+                throw new Exception("Invalid email or password");
+            }
             return loginResponse;
         }
 
