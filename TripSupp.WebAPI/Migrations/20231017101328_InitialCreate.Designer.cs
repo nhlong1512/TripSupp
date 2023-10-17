@@ -12,7 +12,7 @@ using TripSupp.WebAPI.Data;
 namespace TripSupp.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231016044446_InitialCreate")]
+    [Migration("20231017101328_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
