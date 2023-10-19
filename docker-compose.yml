@@ -6,16 +6,15 @@ services:
     build:
       context: .
       dockerfile: TripSupp.WebAPI/Dockerfile
+    ports:
+      - "8000:80"
 
   docker-tripsupp-webapp:
     image: ${DOCKER_REGISTRY-}docker-tripsupp-webapp
     build:
       context: .
       dockerfile: TripSupp.WebApp/Dockerfile
-  sqldb:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      - SA_PASSWORD=2Secure*Password2
-      - ACCEPT_EULA=Y
     ports:
-      - "1450:1433"
+      - "4001:3000"
+    depends_on:
+      - docker-tripsupp-api
