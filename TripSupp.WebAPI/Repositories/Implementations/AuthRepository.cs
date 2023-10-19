@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TripSupp.WebAPI.Data;
@@ -23,9 +25,14 @@ namespace TripSupp.WebAPI.Repositories.Implementations
         }
         public async ValueTask<LoginResponse> LoginAsync(LoginRequest loginRequest)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email && u.Password == loginRequest.Password);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email);
 
             if (user == null)
+            {
+                return null;
+            }
+
+            if (!VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }
@@ -40,11 +47,13 @@ namespace TripSupp.WebAPI.Repositories.Implementations
 
         public async ValueTask<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
         {
+            CreatePasswordHashAsync(registerRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
             {
                 Id = Guid.NewGuid(),
                 Email = registerRequest.Email,
-                Password = registerRequest.Password,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
                 FullName = registerRequest.FullName,
                 Role = "USER"
             };
@@ -61,12 +70,26 @@ namespace TripSupp.WebAPI.Repositories.Implementations
 
         public async ValueTask<bool> UserExists(string email)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null)
+            return await _context.Users.AnyAsync(x => x.Email == email);
+        }
+
+
+        private void CreatePasswordHashAsync(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
             {
-                return true;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                passwordSalt = hmac.Key;
             }
-            return false;
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
+            }
         }
     }
 }
